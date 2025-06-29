@@ -222,4 +222,26 @@ public class UserTests
         Assert.Equal("UserBuilder.InvalidEmailFormat", result.Error.Code);
         Assert.Equal("Invalid email format.", result.Error.Message);
     }
+
+    [Fact]
+    public void UserBuilder_Build_ShouldGenerateId_WhenIdIsNotProvided()
+    {
+        // Arrange
+        var name = "Test User";
+        var email = "test@example.com";
+
+        // Act
+        var result = new UserBuilder()
+            .WithName(name)
+            .WithEmail(email)
+            .Build();
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.NotNull(result.Value);
+        Assert.NotNull(result.Value.Id);
+        Assert.NotEqual(Guid.Empty, result.Value.Id.Id);
+        Assert.Equal(name, result.Value.Name);
+        Assert.Equal(email, result.Value.Email);
+    }
 }
