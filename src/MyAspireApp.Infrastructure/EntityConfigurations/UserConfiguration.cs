@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyAspireApp.Domain.Entities;
+using MyAspireApp.Domain.ValueObjects;
 
 namespace MyAspireApp.Infrastructure.EntityConfigurations;
 
@@ -18,7 +19,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Email)
             .IsRequired()
-            .HasMaxLength(255);
+            .HasMaxLength(255)
+            .HasConversion(v => v.Value, v => Email.Create(v));
 
         builder.HasIndex(u => u.Email).IsUnique();
     }
