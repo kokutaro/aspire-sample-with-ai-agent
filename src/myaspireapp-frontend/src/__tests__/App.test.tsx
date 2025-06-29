@@ -12,13 +12,13 @@ describe('App', () => {
   it('should increment the count when the button is clicked', async () => {
     render(<App />)
     const button = screen.getByRole('button', { name: /count is/i })
-    expect(button).toHaveTextContent('count is 0')
+    expect(button).toHaveTextContent('count is a 0')
 
     await userEvent.click(button)
-    expect(button).toHaveTextContent('count is 1')
+    expect(button).toHaveTextContent('count is a 1')
 
     await userEvent.click(button)
-    expect(button).toHaveTextContent('count is 2')
+    expect(button).toHaveTextContent('count is a 2')
   })
 
   it('should display the read-the-docs paragraph', () => {
