@@ -21,19 +21,18 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore src/MyAspireApp.sln
+        run: dotnet restore MyAspireApp.sln
 
       - name: Build all projects
-        run: dotnet build src/MyAspireApp.sln --no-restore
+        run: dotnet build MyAspireApp.sln --no-restore
 
       - name: Run tests and collect coverage
-        run: dotnet test src/MyAspireApp.sln --no-build --collect "Coverage"
+        run: dotnet test MyAspireApp.sln --no-build /p:CollectCoverage=true
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./TestResults/
           flags: unittests
           name: codecov-backend
           fail_ci_if_error: true
