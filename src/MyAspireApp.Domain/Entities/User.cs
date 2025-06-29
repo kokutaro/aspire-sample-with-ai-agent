@@ -2,7 +2,7 @@ using MyAspireApp.Domain.Common;
 
 namespace MyAspireApp.Domain.Entities;
 
-public sealed record UserId(Guid Id) : StronglyTypedId<Guid>(Id);
+public sealed record UserId(Guid Value) : StronglyTypedId<Guid>(Value);
 public class User : Entity<UserId>
 {
     public string? Name { get; private set; }
