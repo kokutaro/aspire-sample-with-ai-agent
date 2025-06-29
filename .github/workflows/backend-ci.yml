@@ -33,6 +33,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./**/TestResults/
           flags: unittests
           name: codecov-backend
           fail_ci_if_error: true
