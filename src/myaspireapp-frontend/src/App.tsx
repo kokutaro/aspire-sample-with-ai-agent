@@ -1,7 +1,7 @@
-import { useCounter } from './hooks/useCounter'
-import './App.css'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import './App.css';
+import reactLogo from './assets/react.svg';
+import { useCounter } from './hooks/useCounter';
+import viteLogo from '/vite.svg';
 
 function App() {
   const { count, increment } = useCounter(0)
