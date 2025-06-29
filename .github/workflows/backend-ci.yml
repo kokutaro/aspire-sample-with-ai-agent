@@ -1,0 +1,60 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  should_run:
+    runs-on: ubuntu-latest
+    outputs:
+      run_backend_ci: ${{ steps.check_files.outputs.run_backend_ci }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for backend file changes
+        id: check_files
+        run: |
+          echo "Checking for changes in src/MyAspireApp.**"
+          git fetch origin main
+          if git diff --quiet origin/main HEAD -- src/MyAspireApp.Application/ src/MyAspireApp.ApiService/ src/MyAspireApp.AppHost/ src/MyAspireApp.Domain/ src/MyAspireApp.Infrastructure/ src/MyAspireApp.Web/;
+          then
+            echo "No changes in backend. Skipping CI."
+            echo "run_backend_ci=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Changes detected in backend. Running CI."
+            echo "run_backend_ci=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build-and-test:
+    needs: should_run
+    if: needs.should_run.outputs.run_backend_ci == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore MyAspireApp.sln
+
+      - name: Build all projects
+        run: dotnet build MyAspireApp.sln --no-restore
+
+      - name: Run tests and collect coverage
+        run: dotnet test MyAspireApp.sln --no-build --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=TestResults.trx" --results-directory:./TestResults
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./TestResults/
+          flags: unittests
+          name: codecov-backend
+          fail_ci_if_error: true
+          verbose: true

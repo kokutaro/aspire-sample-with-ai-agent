@@ -4,11 +4,31 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'src/myaspireapp-frontend/**'
 
 jobs:
+  should_run:
+    runs-on: ubuntu-latest
+    outputs:
+      run_frontend_ci: ${{ steps.check_files.outputs.run_frontend_ci }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for frontend file changes
+        id: check_files
+        run: |
+          echo "Checking for changes in src/myaspireapp-frontend/"
+          git fetch origin main
+          if git diff --quiet origin/main HEAD -- src/myaspireapp-frontend/;
+          then
+            echo "No changes in frontend. Skipping CI."
+            echo "run_frontend_ci=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Changes detected in frontend. Running CI."
+            echo "run_frontend_ci=true" >> "$GITHUB_OUTPUT"
+          fi
+
   frontend-ci-checks:
+    needs: should_run
+    if: needs.should_run.outputs.run_frontend_ci == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:

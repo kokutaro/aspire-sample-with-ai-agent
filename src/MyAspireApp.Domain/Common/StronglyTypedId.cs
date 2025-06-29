@@ -1,20 +1,13 @@
 namespace MyAspireApp.Domain.Common;
 
-public abstract record StronglyTypedId<TValue> : IComparable<StronglyTypedId<TValue>>, IEquatable<StronglyTypedId<TValue>>
-    where TValue : notnull
+public abstract record StronglyTypedId<TId>(TId Id)
+    : IComparable<StronglyTypedId<TId>>
+    where TId : notnull
 {
-    public TValue Value { get; }
+    public override string ToString() => Id.ToString()!;
 
-    protected StronglyTypedId(TValue value)
+    public int CompareTo(StronglyTypedId<TId>? other)
     {
-        Value = value;
-    }
-
-    public override string ToString() => Value.ToString()!;
-
-    public int CompareTo(StronglyTypedId<TValue>? other)
-    {
-        if (other is null) return 1;
-        return Comparer<TValue>.Default.Compare(Value, other.Value);
+        return other is null ? 1 : Comparer<TId>.Default.Compare(Id, other.Id);
     }
 }
