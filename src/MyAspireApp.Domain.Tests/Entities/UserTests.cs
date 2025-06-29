@@ -240,7 +240,7 @@ public class UserTests
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);
         Assert.NotNull(result.Value.Id);
-        Assert.NotEqual(Guid.Empty, result.Value.Id.Id);
+        Assert.NotEqual(Guid.Empty, result.Value.Id.Value);
         Assert.Equal(name, result.Value.Name);
         Assert.Equal(email, result.Value.Email);
     }
