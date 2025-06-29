@@ -29,10 +29,7 @@ public class UserBuilder
 
     public Result<User> Build()
     {
-        if (_id == null)
-        {
-            _id = new UserId(Guid.NewGuid());
-        }
+        _id ??= new UserId(Guid.NewGuid());
 
         if (string.IsNullOrWhiteSpace(_name))
         {

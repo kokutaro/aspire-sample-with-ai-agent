@@ -8,8 +8,6 @@ namespace MyAspireApp.Infrastructure;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
-
-    // DbSet for your entities will go here, e.g.:
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,14 +22,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         {
             foreach (var property in entityType.GetProperties())
             {
-                if (property.ClrType.IsGenericType &&
-                    property.ClrType.GetGenericTypeDefinition() == typeof(StronglyTypedId<>) &&
-                    property.ClrType.GetGenericArguments()[0] == typeof(Guid))
+                if (!property.ClrType.IsGenericType ||
+                    property.ClrType.GetGenericTypeDefinition() != typeof(StronglyTypedId<>) ||
+                    property.ClrType.GetGenericArguments()[0] != typeof(Guid))
                 {
-                    var converterType = typeof(StronglyTypedIdConverter<>).MakeGenericType(property.ClrType);
-                    var converter = (ValueConverter)Activator.CreateInstance(converterType)!;
-                    property.SetValueConverter(converter);
+                    continue;
                 }
+
+                var converterType = typeof(StronglyTypedIdConverter<>).MakeGenericType(property.ClrType);
+                var converter = (ValueConverter)Activator.CreateInstance(converterType)!;
+                property.SetValueConverter(converter);
             }
         }
     }
