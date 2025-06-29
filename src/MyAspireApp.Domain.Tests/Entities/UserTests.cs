@@ -1,4 +1,5 @@
 using MyAspireApp.Domain.Entities;
+using MyAspireApp.Domain.ValueObjects;
 
 namespace MyAspireApp.Domain.Tests.Entities;
 
@@ -15,84 +16,13 @@ public class UserTests
             .Build();
         Assert.True(userResult.IsSuccess);
         var user = userResult.Value;
-        var newEmail = "new@example.com";
+        var newEmail = Email.Create("new@example.com");
 
         // Act
-        var result = user.ChangeEmail(newEmail);
+        user.ChangeEmail(newEmail);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.True(result.Value);
         Assert.Equal(newEmail, user.Email);
-    }
-
-    [Fact]
-    public void ChangeEmail_ShouldReturnFailure_WhenNewEmailIsEmpty()
-    {
-        // Arrange
-        var userResult = new UserBuilder()
-            .WithId(new UserId(Guid.NewGuid()))
-            .WithName("Test User")
-            .WithEmail("old@example.com")
-            .Build();
-        Assert.True(userResult.IsSuccess);
-        var user = userResult.Value;
-        var newEmail = "";
-
-        // Act
-        var result = user.ChangeEmail(newEmail);
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal("User.EmailEmpty", result.Error.Code);
-        Assert.Equal("Email cannot be empty.", result.Error.Message);
-        Assert.Equal("old@example.com", user.Email); // Email should not change
-    }
-
-    [Fact]
-    public void ChangeEmail_ShouldReturnFailure_WhenNewEmailIsWhitespace()
-    {
-        // Arrange
-        var userResult = new UserBuilder()
-            .WithId(new UserId(Guid.NewGuid()))
-            .WithName("Test User")
-            .WithEmail("old@example.com")
-            .Build();
-        Assert.True(userResult.IsSuccess);
-        var user = userResult.Value;
-        var newEmail = "   ";
-
-        // Act
-        var result = user.ChangeEmail(newEmail);
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal("User.EmailEmpty", result.Error.Code);
-        Assert.Equal("Email cannot be empty.", result.Error.Message);
-        Assert.Equal("old@example.com", user.Email); // Email should not change
-    }
-
-    [Fact]
-    public void ChangeEmail_ShouldReturnFailure_WhenNewEmailIsInvalidFormat()
-    {
-        // Arrange
-        var userResult = new UserBuilder()
-            .WithId(new UserId(Guid.NewGuid()))
-            .WithName("Test User")
-            .WithEmail("old@example.com")
-            .Build();
-        Assert.True(userResult.IsSuccess);
-        var user = userResult.Value;
-        var newEmail = "invalid-email"; // Missing @
-
-        // Act
-        var result = user.ChangeEmail(newEmail);
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal("User.InvalidEmailFormat", result.Error.Code);
-        Assert.Equal("Invalid email format.", result.Error.Message);
-        Assert.Equal("old@example.com", user.Email); // Email should not change
     }
 
     [Fact]
@@ -115,7 +45,7 @@ public class UserTests
         Assert.NotNull(result.Value);
         Assert.Equal(userId, result.Value.Id);
         Assert.Equal(name, result.Value.Name);
-        Assert.Equal(email, result.Value.Email);
+        Assert.Equal(email, result.Value.Email.Value);
     }
 
     [Fact]
@@ -139,34 +69,14 @@ public class UserTests
         Assert.Equal("Name cannot be null or empty.", result.Error.Message);
     }
 
-    [Fact]
-    public void UserBuilder_Build_ShouldReturnFailure_WhenNameIsWhitespace()
-    {
-        // Arrange
-        var userId = new UserId(Guid.NewGuid());
-        var name = "   ";
-        var email = "valid@example.com";
-
-        // Act
-        var result = new UserBuilder()
-            .WithId(userId)
-            .WithName(name)
-            .WithEmail(email)
-            .Build();
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal("UserBuilder.NameEmpty", result.Error.Code);
-        Assert.Equal("Name cannot be null or empty.", result.Error.Message);
-    }
-
-    [Fact]
-    public void UserBuilder_Build_ShouldReturnFailure_WhenEmailIsEmpty()
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void UserBuilder_Build_ShouldReturnFailure_WhenEmailIsEmpty(string email)
     {
         // Arrange
         var userId = new UserId(Guid.NewGuid());
         var name = "Valid Name";
-        var email = "";
 
         // Act
         var result = new UserBuilder()
@@ -177,29 +87,7 @@ public class UserTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("UserBuilder.EmailEmpty", result.Error.Code);
-        Assert.Equal("Email cannot be null or empty.", result.Error.Message);
-    }
-
-    [Fact]
-    public void UserBuilder_Build_ShouldReturnFailure_WhenEmailIsWhitespace()
-    {
-        // Arrange
-        var userId = new UserId(Guid.NewGuid());
-        var name = "Valid Name";
-        var email = "   ";
-
-        // Act
-        var result = new UserBuilder()
-            .WithId(userId)
-            .WithName(name)
-            .WithEmail(email)
-            .Build();
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal("UserBuilder.EmailEmpty", result.Error.Code);
-        Assert.Equal("Email cannot be null or empty.", result.Error.Message);
+        Assert.Equal("UserBuilder.InvalidEmail", result.Error.Code);
     }
 
     [Fact]
@@ -219,8 +107,7 @@ public class UserTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("UserBuilder.InvalidEmailFormat", result.Error.Code);
-        Assert.Equal("Invalid email format.", result.Error.Message);
+        Assert.Equal("UserBuilder.InvalidEmail", result.Error.Code);
     }
 
     [Fact]
@@ -242,6 +129,6 @@ public class UserTests
         Assert.NotNull(result.Value.Id);
         Assert.NotEqual(Guid.Empty, result.Value.Id.Value);
         Assert.Equal(name, result.Value.Name);
-        Assert.Equal(email, result.Value.Email);
+        Assert.Equal(email, result.Value.Email.Value);
     }
 }

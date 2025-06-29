@@ -1,4 +1,5 @@
 using MyAspireApp.Domain.Common;
+using MyAspireApp.Domain.ValueObjects;
 
 namespace MyAspireApp.Domain.Entities;
 
@@ -38,17 +39,14 @@ public class UserBuilder
             return Result<User>.Failure(new Error("UserBuilder.NameEmpty", "Name cannot be null or empty."));
         }
 
-        if (string.IsNullOrWhiteSpace(_email))
+        try
         {
-            return Result<User>.Failure(new Error("UserBuilder.EmailEmpty", "Email cannot be null or empty."));
+            var emailObject = Email.Create(_email);
+            return Result<User>.Success(new User(_id, _name, emailObject));
         }
-
-        // 簡易的なメールアドレスバリデーション
-        if (!_email.Contains('@'))
+        catch (Exception ex)
         {
-            return Result<User>.Failure(new Error("UserBuilder.InvalidEmailFormat", "Invalid email format."));
+            return Result<User>.Failure(new Error("UserBuilder.InvalidEmail", ex.Message));
         }
-
-        return Result<User>.Success(new User(_id, _name, _email));
     }
 }
