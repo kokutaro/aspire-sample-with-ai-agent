@@ -53,7 +53,7 @@ src/myaspireapp-frontend/.idea/
 src/myaspireapp-frontend/.vscode/
 src/myaspireapp-frontend/.DS_Store
 
-#　	Husky
+#	Husky
 node_modules
 
 # Logs
@@ -87,3 +87,9 @@ playwright-report/
 
 # Vitest
 .vitest/
+
+# Test coverage reports
+coverage-report/
+
+# Test results
+src/*/TestResults/
