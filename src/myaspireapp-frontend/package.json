@@ -15,7 +15,8 @@
     "test:ui": "vitest --ui",
     "format": "prettier --write . --ignore-path ./.prettierignore",
     "format:check": "prettier --check . --ignore-path ./.prettierignore",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json}": [
@@ -23,7 +24,6 @@
       "eslint --fix"
     ]
   },
-  "prepare": "husky",
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
