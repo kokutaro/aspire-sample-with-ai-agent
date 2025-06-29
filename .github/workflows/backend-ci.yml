@@ -17,7 +17,7 @@ jobs:
         run: |
           echo "Checking for changes in src/MyAspireApp.**"
           git fetch origin main
-          if git diff --quiet origin/main HEAD -- src/MyAspireApp.Application/ src/MyAspireApp.ApiService/ src/MyAspireApp.AppHost/ src/MyAspireApp.Domain/ src/MyAspireApp.Infrastructure/ src/MyAspireApp.Web/;
+          if git diff --quiet origin/main HEAD -- src/MyAspireApp.*/;
           then
             echo "No changes in backend. Skipping CI."
             echo "run_backend_ci=false" >> "$GITHUB_OUTPUT"
