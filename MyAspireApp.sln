@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAspireApp.Domain.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAspireApp.Infrastructure.Tests", "src\MyAspireApp.Infrastructure.Tests\MyAspireApp.Infrastructure.Tests.csproj", "{DA0E9CA9-78C6-4885-945D-F552D49A2D0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAspireApp.AppHost.ServiceDefaults", "src\MyAspireApp.AppHost\MyAspireApp.AppHost.ServiceDefaults\MyAspireApp.AppHost.ServiceDefaults.csproj", "{0823AF44-CCF0-4612-9B82-93444DD6C75C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{DA0E9CA9-78C6-4885-945D-F552D49A2D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA0E9CA9-78C6-4885-945D-F552D49A2D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA0E9CA9-78C6-4885-945D-F552D49A2D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0823AF44-CCF0-4612-9B82-93444DD6C75C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0823AF44-CCF0-4612-9B82-93444DD6C75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0823AF44-CCF0-4612-9B82-93444DD6C75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0823AF44-CCF0-4612-9B82-93444DD6C75C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4037C4DC-603C-47DC-BFDE-0CE2591FC8E0} = {DFC8BF25-C770-40B2-9B8E-A525F4D73E88}
@@ -82,5 +88,6 @@ Global
 		{7F858E9E-FE8B-47C6-B419-9808A783420A} = {DFC8BF25-C770-40B2-9B8E-A525F4D73E88}
 		{F3EE20EE-BDC2-4D54-9B42-A4F556E2F877} = {DFC8BF25-C770-40B2-9B8E-A525F4D73E88}
 		{DA0E9CA9-78C6-4885-945D-F552D49A2D0B} = {DFC8BF25-C770-40B2-9B8E-A525F4D73E88}
+		{0823AF44-CCF0-4612-9B82-93444DD6C75C} = {4037C4DC-603C-47DC-BFDE-0CE2591FC8E0}
 	EndGlobalSection
 EndGlobal
