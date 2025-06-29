@@ -1,0 +1,86 @@
+# Visual Studio
+.vs/
+*.com
+*.exe
+*.dll
+*.pdb
+*.user
+*.suo
+*.cache
+*.obj
+*.o
+*.lo
+*.la
+*.alib
+*.lib
+*.ncb
+*.opendb
+*.aps
+*.bsc
+*.sbr
+*.res
+*.pch
+*.exp
+*.ilk
+*.mdf
+*.ldf
+*.log
+*.bak
+*.ipch
+*.aps
+*.bsc
+*.sbr
+*.res
+*.pch
+*.exp
+*.ilk
+*.mdf
+*.ldf
+*.log
+*.bak
+*.ipch
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Front-end
+src/myaspireapp-frontend/node_modules/
+src/myaspireapp-frontend/dist/
+src/myaspireapp-frontend/coverage/
+src/myaspireapp-frontend/.vite/
+src/myaspireapp-frontend/.idea/
+src/myaspireapp-frontend/.vscode/
+src/myaspireapp-frontend/.DS_Store
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# npm
+npm-debug.log*
+.npm/
+
+# dotenv
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Playwright
+playwright-report/
+
+# Vitest
+.vitest/

@@ -1,0 +1,10 @@
+# Local environment variables
+*.local
+
+# Build output
+/dist-ssr/
+
+# Test results
+/test-results/
+/blob-report/
+/playwright/.cache/

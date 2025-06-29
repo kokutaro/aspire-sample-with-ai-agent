@@ -1,0 +1,49 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/myaspireapp-frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/myaspireapp-frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Type Check
+        run: npm run build
+
+      - name: Run Format Check
+        run: npm run format:check
+
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run Unit Tests with Coverage
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: src/myaspireapp-frontend/coverage
+          flags: unittests
+          name: codecov-frontend
+          fail_ci_if_error: true
+          verbose: true
