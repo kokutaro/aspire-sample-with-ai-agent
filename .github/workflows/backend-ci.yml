@@ -27,13 +27,13 @@ jobs:
         run: dotnet build MyAspireApp.sln --no-restore
 
       - name: Run tests and collect coverage
-        run: dotnet test MyAspireApp.sln --no-build /p:CollectCoverage=true
+        run: dotnet test MyAspireApp.sln --no-build --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=TestResults.trx" --results-directory:./TestResults
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./**/TestResults/
+          directory: ./TestResults/
           flags: unittests
           name: codecov-backend
           fail_ci_if_error: true
