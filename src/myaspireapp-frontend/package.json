@@ -18,7 +18,7 @@
     "test:e2e": "playwright test"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
+    "*.{ts,tsx,js,jsx,json}": [
       "prettier --write --ignore-path ./.prettierignore",
       "eslint --fix"
     ]
