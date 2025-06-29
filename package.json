@@ -1,0 +1,11 @@
+{
+  "name": "web-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
