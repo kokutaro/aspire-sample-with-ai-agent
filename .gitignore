@@ -53,6 +53,9 @@ src/myaspireapp-frontend/.idea/
 src/myaspireapp-frontend/.vscode/
 src/myaspireapp-frontend/.DS_Store
 
+#　	Husky
+node_modules
+
 # Logs
 *.log
 
