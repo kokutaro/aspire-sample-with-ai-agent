@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   should_run:
@@ -15,15 +18,20 @@ jobs:
       - name: Check for backend file changes
         id: check_files
         run: |
-          echo "Checking for changes in src/MyAspireApp.**"
-          git fetch origin main
-          if git diff --quiet origin/main HEAD -- src/MyAspireApp.*/;
-          then
-            echo "No changes in backend. Skipping CI."
-            echo "run_backend_ci=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Changes detected in backend. Running CI."
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "Running CI for push event on main branch."
             echo "run_backend_ci=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Checking for changes in src/MyAspireApp.**"
+            git fetch origin main
+            if git diff --quiet origin/main HEAD -- src/MyAspireApp.*/;
+            then
+              echo "No changes in backend. Skipping CI."
+              echo "run_backend_ci=false" >> "$GITHUB_OUTPUT"
+            else
+              echo "Changes detected in backend. Running CI."
+              echo "run_backend_ci=true" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
   build-and-test:
