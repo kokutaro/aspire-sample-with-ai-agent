@@ -5,10 +5,10 @@ namespace MyAspireApp.Domain.Entities;
 public sealed record UserId(Guid Id) : StronglyTypedId<Guid>(Id);
 public class User : Entity<UserId>
 {
-    public string Name { get; private set; }
+    public string? Name { get; private set; }
     public string Email { get; private set; }
 
-    internal User(UserId id, string name, string email) : base(id)
+    internal User(UserId id, string? name, string? email) : base(id)
     {
         Name = name;
         Email = email;

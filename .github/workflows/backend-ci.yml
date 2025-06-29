@@ -1,0 +1,40 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/MyAspireApp.**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore src/MyAspireApp.sln
+
+      - name: Build all projects
+        run: dotnet build src/MyAspireApp.sln --no-restore
+
+      - name: Run tests and collect coverage
+        run: dotnet test src/MyAspireApp.sln --no-build --collect "Coverage"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./TestResults/
+          flags: unittests
+          name: codecov-backend
+          fail_ci_if_error: true
+          verbose: true

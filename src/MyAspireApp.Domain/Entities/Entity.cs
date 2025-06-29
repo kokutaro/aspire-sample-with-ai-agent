@@ -5,7 +5,7 @@ namespace MyAspireApp.Domain.Entities;
 public abstract class Entity<TId>
     where TId : StronglyTypedId<Guid>
 {
-    public TId Id { get; protected init; } = default!;
+    public TId Id { get; } = null!;
 
     // For ORM or serialization
     protected Entity(TId id)
